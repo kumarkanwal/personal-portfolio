@@ -400,7 +400,6 @@ var PROFILE = {
   metrics: [
     ["3", "production systems still running", ""],
     ["5", "years building production automation", " yrs"],
-    ["100", "of systems I've deployed still running", "%"],
     ["3", "countries I've worked with clients in", ""]
   ]
 };
@@ -448,7 +447,7 @@ var CATS = ["AI agents","Automation","Websites","Products","Plugins"];
 var PROJECTS = [
   {
   slug:"rag-agent", cat:"AI agents", live:true, url:"", ask:false,
-  name:"This site's AI assistant  RAG over my own documents",
+  name:"This site's AI assistant: RAG over my own documents",
   tagline:"A grounded assistant that answers recruiter questions from my case studies, and refuses rather than guesses.",
   result:"Live on this page. Four model providers behind it, free tiers first, so a rate limit on one never takes it down.",
   stack:["Python","FastAPI","LangChain","Chroma","Docker","Groq / Gemini / Cerebras"],
@@ -740,7 +739,7 @@ function home(){
     + '<div class="chat__meter" id="chatMeter"><span>Grounded in my own documents</span>'
     + '<span><b id="chatLeft">8</b> questions left</span></div></div>'
     + '</div></div>'
-    + '<p class="small dim" style="margin-top:16px">How it works, in full: <a href="#/p/rag-agent">the RAG assistant teardown →</a></p>'
+    + '<p class="small dim" style="margin-top:16px">Ask it what I am worst at. It will tell you. <a href="#/p/rag-agent">How it works →</a></p>'
     + '</div></section>';
 
   h += '<section class="band" id="projects" data-rail="Projects"><div class="wrap">'
