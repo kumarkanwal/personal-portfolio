@@ -859,6 +859,9 @@ function render(){
   });
   wireCanvas(app);
   renderFilters(); renderGrid(); wireImages(app); wireExtras(); countUp(); buildRail(); observe();
+    app.querySelectorAll('a[href^="http"], a[href^="mailto:"]').forEach(function(a){
+    a.target="_blank"; a.rel="noopener";
+  });
 
   document.getElementById("navlinks").classList.remove("open");
   document.getElementById("burger").setAttribute("aria-expanded","false");
@@ -987,6 +990,7 @@ document.getElementById("burger").addEventListener("click",function(){
 
 (function(){
   var wf=document.getElementById("waFoot");
+  document.querySelectorAll('.foot a').forEach(function(a){a.target="_blank";a.rel="noopener";});
   if(!wf) return;
   if(isNeed(CONTACT.whatsapp)) wf.addEventListener("click",function(e){e.preventDefault();alert("Set CONTACT.whatsapp to https://wa.me/<your number>.");});
   else wf.href=CONTACT.whatsapp;
