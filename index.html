@@ -976,7 +976,7 @@ function wireExtras(){
         box.innerHTML='<div style="text-align:center;padding:18px 4px">'
           +'<div style="width:44px;height:44px;border-radius:50%;background:var(--run-tint);color:var(--run);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:22px">✓</div>'
           +'<h4 style="margin-bottom:8px">Message sent</h4>'
-          +'<p class="small dim" style="margin-bottom:18px">A confirmation is on its way to '+esc(m)+'. I reply within about 4 hours during working hours.</p>'
+          +'<p class="small dim" style="margin-bottom:18px">A confirmation is on its way to (please check your spam folder)'+esc(m)+'. I reply within about 4 hours during working hours.</p>'
           +'<button type="button" class="btn btn--ghost btn--sm" id="again">Send another</button></div>';
         document.getElementById("again").addEventListener("click",function(){render();
           setTimeout(function(){var el=document.getElementById("contact");if(el)el.scrollIntoView({behavior:reduced?"auto":"smooth"});},40);});
