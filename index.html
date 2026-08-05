@@ -199,7 +199,30 @@ code{font-family:var(--mono);font-size:12px;background:#fff;border:1px solid var
 .rag__seed{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
 .rag__seed button{background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:.86rem;color:var(--body);transition:border-color .18s,color .18s}
 .rag__seed button:hover{border-color:var(--signal);color:var(--signal-ink)}
-.rag__slot{border:1px dashed #C9DBF7;background:var(--signal-tint);border-radius:10px;padding:20px 22px;font-size:.93rem;color:var(--signal-ink);line-height:1.65;min-height:120px}
+.chat{display:flex;flex-direction:column;gap:14px}
+.chat__log{display:flex;flex-direction:column;gap:12px;min-height:130px;max-height:400px;overflow-y:auto;padding-right:4px}
+.chat__empty{border:1px dashed #C9DBF7;background:var(--signal-tint);border-radius:10px;padding:18px 20px;font-size:.93rem;color:var(--signal-ink);line-height:1.6}
+.msg{max-width:88%;font-size:.94rem;line-height:1.6;border-radius:12px;padding:11px 15px;white-space:pre-wrap}
+.msg--you{align-self:flex-end;background:var(--ink);color:#fff;border-bottom-right-radius:4px}
+.msg--bot{align-self:flex-start;background:var(--paper);border:1px solid var(--line);color:var(--body);border-bottom-left-radius:4px}
+.msg--err{align-self:flex-start;background:var(--paper);border:1px solid var(--leak);color:var(--leak);border-bottom-left-radius:4px}
+.msg__src{display:block;margin-top:9px;padding-top:9px;border-top:1px solid var(--line-soft);font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);white-space:normal}
+.msg--think{display:flex;gap:5px;align-items:center;padding:15px}
+.msg--think i{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:think 1.3s infinite var(--ease)}
+.msg--think i:nth-child(2){animation-delay:.18s}
+.msg--think i:nth-child(3){animation-delay:.36s}
+@keyframes think{0%,60%,100%{opacity:.25;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+.chat__form{display:flex;gap:9px;align-items:flex-end}
+.chat__form textarea{flex:1;font:inherit;font-size:.94rem;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:11px 13px;resize:none;min-height:44px;max-height:110px;line-height:1.5}
+.chat__form textarea:focus{outline:none;border-color:var(--signal);box-shadow:0 0 0 3px var(--signal-tint)}
+.chat__form button{flex:none;height:44px}
+.chat__form button:disabled{opacity:.45;cursor:not-allowed}
+.chat__meter{display:flex;justify-content:space-between;gap:12px;align-items:center;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.chat__meter b{font-weight:500;color:var(--ink)}
+.chat__meter.low b{color:var(--leak)}
+.chat__done{border:1px solid var(--line);background:var(--tint);border-radius:12px;padding:22px;text-align:center;font-size:.94rem}
+.chat__done h4{margin-bottom:7px}
+.chat__done p{margin-bottom:14px}
 
 /* approach */
 .proc{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));margin-top:36px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
@@ -361,7 +384,8 @@ var CONTACT = {
   github: "https://github.com/kumarkanwal",
   whatsapp: "https://wa.me/923133772883",
   cv: "/cv-kanwal-kumar.pdf",
-  formEndpoint: "https://n8n.innoventix360.com/webhook/portfolio-contact"
+  formEndpoint: "https://n8n.innoventix360.com/webhook/portfolio-contact",
+  apiBase: "https://kanwalai.2-25-189-195.sslip.io"
 };
 
 var PROFILE = {
@@ -667,7 +691,16 @@ function home(){
     + '<div class="rag"><div class="rag__bar"><i></i><span>Grounded assistant  live</span></div>'
     + '<div class="rag__body"><div class="rag__seed">'
     + RAG_SEEDS.map(function(s){return '<button type="button" data-seed>'+esc(s)+'</button>';}).join("")
-    + '</div><div class="rag__slot" id="ragSlot"><strong>Embed slot.</strong> Replace the element with id <code>ragSlot</code> with your chatbot iframe or widget script. Until then this panel explains itself rather than looking broken.<br><br><strong>If the assistant is ever unreliable, delete this whole section rather than shipping it</strong>  a weak demo costs more than no demo.</div>'
+    + '</div><div class="chat" id="chat">'
+    + '<div class="chat__log" id="chatLog" role="log" aria-live="polite">'
+    + '<div class="chat__empty" id="chatEmpty">Ask anything about my work. Answers come from my own case studies and CV, and it says so when it does not know rather than guessing. Eight questions per visit  enough to judge whether it is real.</div>'
+    + '</div>'
+    + '<form class="chat__form" id="chatForm">'
+    + '<label class="sr" for="chatInput">Your question</label>'
+    + '<textarea id="chatInput" rows="1" maxlength="500" placeholder="What has he built with RAG?"></textarea>'
+    + '<button class="btn" type="submit" id="chatSend">Ask</button></form>'
+    + '<div class="chat__meter" id="chatMeter"><span>Grounded in my own documents</span>'
+    + '<span><b id="chatLeft">8</b> questions left</span></div></div>'
     + '</div></div>'
     + '<p class="small dim" style="margin-top:16px">How it works, in full: <a href="#/p/rag-agent">the RAG assistant teardown →</a></p>'
     + '</div></section>';
@@ -878,12 +911,7 @@ function wireExtras(){
   var wa=document.getElementById("waLink");
   if(wa&&isNeed(CONTACT.whatsapp)) wa.addEventListener("click",function(e){e.preventDefault();alert("Set CONTACT.whatsapp to https://wa.me/<your number>.");});
 
-  app.querySelectorAll("[data-seed]").forEach(function(b){
-    b.addEventListener("click",function(){
-      var s=document.getElementById("ragSlot");
-      if(s) s.innerHTML='<strong>“'+esc(b.textContent)+'”</strong><br><br>Once your assistant is embedded here, this question goes straight to it. Replace the <code>ragSlot</code> element with your widget.';
-    });
-  });
+  initChat();
 
   var form=document.getElementById("form");
   if(form) form.addEventListener("submit",function(e){
@@ -918,6 +946,114 @@ function wireExtras(){
       })
       .catch(function(){btn.disabled=false;btn.textContent="Send";note.textContent="That did not send. Email me directly at "+CONTACT.email+".";note.style.color="var(--leak)";});
   });
+}
+
+function initChat(){
+  var chat=document.getElementById("chat"); if(!chat) return;
+  var API=CONTACT.apiBase.replace(/\/$/,"");
+  var log=document.getElementById("chatLog"),
+      empty=document.getElementById("chatEmpty"),
+      form=document.getElementById("chatForm"),
+      input=document.getElementById("chatInput"),
+      send=document.getElementById("chatSend"),
+      meter=document.getElementById("chatMeter"),
+      left=document.getElementById("chatLeft"),
+      busy=false;
+
+  var sid=localStorage.getItem("kk_sid");
+  if(!sid){
+    sid="s_"+Date.now().toString(36)+Math.random().toString(36).slice(2,10);
+    localStorage.setItem("kk_sid",sid);
+  }
+
+  function bubble(text,kind,sources){
+    if(empty){empty.remove();empty=null;}
+    var d=document.createElement("div");
+    d.className="msg msg--"+kind;
+    d.textContent=text;
+    if(sources&&sources.length){
+      var s=document.createElement("span");
+      s.className="msg__src";
+      s.textContent="From: "+sources.join(" · ");
+      d.appendChild(s);
+    }
+    log.appendChild(d); log.scrollTop=log.scrollHeight; return d;
+  }
+
+  function setLeft(n){
+    if(!left) return;
+    left.textContent=n;
+    meter.classList.toggle("low",n<=2);
+    if(n<=0) finish();
+  }
+
+  function finish(){
+    if(form){form.remove();form=null;}
+    if(meter){meter.remove();meter=null;}
+    var d=document.createElement("div");
+    d.className="chat__done";
+    d.innerHTML='<h4>That is the demo</h4>'
+      +'<p>If it answered what you needed, the next step is a conversation.</p>'
+      +'<a class="btn btn--sm" href="mailto:'+esc(CONTACT.email)+'">Email me</a>';
+    chat.appendChild(d);
+  }
+
+  function ask(question){
+    if(busy||!question||!form) return;
+    busy=true; send.disabled=true;
+    input.value=""; input.style.height="auto";
+    bubble(question,"you");
+
+    var wait=document.createElement("div");
+    wait.className="msg msg--bot msg--think";
+    wait.innerHTML="<i></i><i></i><i></i>";
+    log.appendChild(wait); log.scrollTop=log.scrollHeight;
+
+    fetch(API+"/chat",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({question:question,session_id:sid})
+    })
+    .then(function(r){return r.json().then(function(d){return {ok:r.ok,status:r.status,data:d};});})
+    .then(function(res){
+      wait.remove();
+      if(res.status===429){
+        bubble(res.data.detail||"Question limit reached for this session.","err");
+        finish(); return;
+      }
+      if(!res.ok) throw new Error();
+      bubble(res.data.answer,"bot",res.data.sources);
+      setLeft(res.data.remaining);
+    })
+    .catch(function(){
+      wait.remove();
+      bubble("That did not go through. Try again, or email "+CONTACT.email+".","err");
+    })
+    .then(function(){
+      busy=false;
+      if(send){send.disabled=false;input.focus();}
+    });
+  }
+
+  form.addEventListener("submit",function(e){e.preventDefault();ask(input.value.trim());});
+
+  input.addEventListener("keydown",function(e){
+    if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();ask(input.value.trim());}
+  });
+
+  input.addEventListener("input",function(){
+    input.style.height="auto";
+    input.style.height=Math.min(input.scrollHeight,110)+"px";
+  });
+
+  app.querySelectorAll("[data-seed]").forEach(function(b){
+    b.addEventListener("click",function(){ask(b.textContent.trim());});
+  });
+
+  fetch(API+"/session/"+sid)
+    .then(function(r){return r.json();})
+    .then(function(d){setLeft(d.remaining);})
+    .catch(function(){});
 }
 
 function countUp(){
