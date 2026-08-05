@@ -738,6 +738,7 @@ function home(){
     + '<div class="field"><label for="fname">Name</label><input id="fname" autocomplete="name"></div>'
     + '<div class="field"><label for="femail">Email</label><input id="femail" type="email" autocomplete="email"></div>'
     + '<div class="field" style="position:absolute;left:-9999px" aria-hidden="true">'
+    + '<label for="fx1">Leave this empty</label><input id="fx1" tabindex="-1" autocomplete="new-password"></div>'
     + '<label for="fcomp">Company</label><input id="fcomp" tabindex="-1" autocomplete="off"></div>'
     + '<div class="field"><label for="fmsg">The role, or the question</label><textarea id="fmsg"></textarea></div>'
     + '<button class="btn btn--dark" type="submit" id="send" style="width:100%;justify-content:center">Send</button>'
@@ -900,7 +901,7 @@ function wireExtras(){
     fetch(CONTACT.formEndpoint,{
       method:"POST",
       headers:{"Content-Type":"application/json","x-form-key":"kk-portfolio-9f3a2b"},
-      body:JSON.stringify({name:n,email:m,message:g,company:document.getElementById("fcomp").value})
+      body:JSON.stringify({name:n,email:m,message:g,company:document.getElementById("fx1").value})
     })
       .then(function(r){if(!r.ok)throw new Error();btn.textContent="Sent";note.textContent="Sent. You will have a confirmation shortly.";})
       .catch(function(){btn.disabled=false;btn.textContent="Send";note.textContent="That did not send. Email me directly at "+CONTACT.email+".";note.style.color="var(--leak)";});
