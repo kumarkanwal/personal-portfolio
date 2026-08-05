@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kanwal-kumar-ai.vercel.app/sitemap.xml
