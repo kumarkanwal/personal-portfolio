@@ -398,7 +398,7 @@ var PROFILE = {
     ["Experience", "5 years Freelance Experience"]
   ],
   metrics: [
-    ["14", "projects shipped and still in use", ""],
+    ["3", "production systems still running", ""],
     ["5", "years building production automation", " yrs"],
     ["100", "of systems I've deployed still running", "%"],
     ["3", "countries I've worked with clients in", ""]
@@ -446,6 +446,43 @@ var CATS = ["AI agents","Automation","Websites","Products","Plugins"];
 /* live → green production pill · url → a real clickable link, "" if none
    ask  → private system, offer a walkthrough instead (use sparingly) */
 var PROJECTS = [
+  {
+  slug:"rag-agent", cat:"AI agents", live:true, url:"", ask:false,
+  name:"This site's AI assistant  RAG over my own documents",
+  tagline:"A grounded assistant that answers recruiter questions from my case studies, and refuses rather than guesses.",
+  result:"Live on this page. Four model providers behind it, free tiers first, so a rate limit on one never takes it down.",
+  stack:["Python","FastAPI","LangChain","Chroma","Docker","Groq / Gemini / Cerebras"],
+  meta:[
+    ["Type","Personal project  production"],
+    ["Role","Sole engineer"],
+    ["Built in","1 week"],
+    ["Live since","August 2026"],
+    ["Providers","4, with automatic fallback"],
+    ["Status","Running on my own VPS"]
+  ],
+  what:"A FastAPI service that retrieves over my case studies, CV and project notes, and answers questions about my work. It shows which document each answer came from, and says it does not know rather than inventing a detail. It is the assistant on the Ask my AI section of this site.",
+  problem:"A portfolio asks you to read. A recruiter with forty tabs open does not read  they skim for one thing: production experience, a specific stack, or what I am weakest at. This answers that directly. The harder problem is that every public LLM demo invents things, and one invented detail about my own CV would make a recruiter discard everything else on this site.",
+  built:[
+    "FastAPI backend, LangChain composing the retrieval chain and per-session history, Chroma as the vector store.",
+    "Local embeddings rather than an API. Embeddings cannot fall back between providers  an index built with one model is meaningless to another  so moving them off the network removed that whole class of failure.",
+    "Four chat providers in a fallback chain, free tiers first, paid last and normally never reached. If one is rate-limited or down, the next answers the same request.",
+    "Rate limiting in three layers: per session, per IP per day, and a global daily kill switch. Every check runs before the model call, so a blocked request costs nothing.",
+    "Input length capped in the request schema and output tokens capped on the model, so no single request can be expensive.",
+    "Dockerised with the index and embedding model baked into the image, so a restart is instant and a deploy never depends on a third party being reachable.",
+    "Deployed on my own VPS behind a reverse proxy with automatic TLS."
+  ],
+  nodes:[
+    {t:"Visitor asks",   s:"Frontend", d:"Session id generated in the browser. The counter is honest but bypassable  that layer is politeness, not security."},
+    {t:"Check quota",    s:"Limits",   d:"Session, IP and global counters checked before anything else. A blocked request never reaches a model, so abuse costs nothing."},
+    {t:"Retrieve",       s:"Chroma",   d:"Top chunks from my own documents, embedded locally. The filename travels with each chunk so the answer can cite its source."},
+    {t:"Ground the prompt", s:"Prompt", d:"The model is instructed to answer only from retrieved context, and to hand over an email address when it cannot. Refusing is a defined outcome, not a failure."},
+    {t:"Call a model",   s:"Fallback", d:"Groq first for latency. If it fails, Gemini, then Cerebras, then OpenRouter, on the same request. The visitor never sees a provider outage."},
+    {t:"Answer + source", s:"Response", d:"The reply, the documents it came from, and how many questions are left. Showing the source is what separates this from a chatbot that makes things up."}
+  ],
+  hard:{t:"The interesting problem",d:"Getting the model to refuse. Asked about a skill that is not in its context, a model will reach for a plausible sentence  and a plausible sentence about my own CV is a lie a recruiter will catch. The fix was not one instruction but three together: a low temperature, a prompt that treats an unanswerable question as a normal outcome with a defined response, and a corpus that states my weaknesses explicitly so there is honest material to retrieve instead of a gap to fill. The second problem was subtler: the obvious fallback design rotates every API call across providers including embeddings, which does not error  it just quietly returns irrelevant results."},
+  learn:"Stream the response. It waits for the full answer before showing anything, which on a slow provider reads as broken. I would also put the rate-limit counters in Redis from the start  in-memory is correct for one worker and silently wrong the moment there are two.",
+  links:[["Try it on this page","#/#ask"],["Source","https://github.com/kumarkanwal/kanwal-kumar-ai-portfolio-rag-aiagent"]]
+},
   {
   slug:"fast-track-supply", cat:"Websites", live:true, url:"https://fasttracksupply.com.au/", ask:false,
   name:"Fast Track Supply  wholesale site with AI assistant",
@@ -666,6 +703,7 @@ function home(){
   h += '</div></aside></div></section>';
 
   h += '<section data-rail="At a glance"><div class="mstrip">';
+  PROFILE.metrics[0][0] = String(PROJECTS.length);
   PROFILE.metrics.forEach(function(m){
     h+='<div><b data-count="'+esc(m[0])+'" data-suffix="'+esc(m[2]||"")+'">'+txt(m[0])+esc(m[2]||"")+'</b><span>'+esc(m[1])+'</span></div>';
   });
@@ -744,7 +782,7 @@ function home(){
     + '<p class="eyebrow">Straight answers</p>'
     + '<h2 style="max-width:18ch">The screening questions, answered before you ask.</h2><div class="faq">'
     + q("Are you available, and from when?","<p>I am open to full-time and contract roles  email or WhatsApp me and I will confirm a start date the same day.</p>")
-    + q("What are your salary expectations?","<p>"+txt("USD $80,000–$100,000 per year, depending on the role, responsibilities, and total compensation package.")+"</p>")
+    + q("What are your salary expectations?","<p>I would rather discuss compensation once I understand the role, the scope and the package as a whole. I am flexible for the right team and will give you a clear number on a call.</p>")
     + q("How much of this did you build yourself?","<p>Most of my projects have been solo, where I handled everything from planning to deployment. When specialized expertise was needed, I collaborated with trusted professionals from my network to deliver the best results.</p>")
     + q("Have you worked on a team, or only solo?","<p>"+txt("I've collaborated on team projects during internships and university, while most freelance projects have been solo. I handle projects end-to-end, document my work for smooth handovers, and collaborate with trusted specialists when specific expertise is needed.")+"</p>")
     + q("What is your English like?","<p>I work in English daily with clients in the "+txt("US and UK")+" calls, written specs and documentation. Everything on this site was written by me. </p>")
@@ -835,9 +873,9 @@ function detail(slug){
     + (p.ask ? '<div class="d__ask"><h4>Want to see it running?</h4><p style="margin:0">This one lives inside a client\'s business, so the repo is private and there is no public demo. Happy to screen-share the whole system on a call.</p><p style="margin:12px 0 0"><a class="btn btn--sm" href="mailto:'+esc(CONTACT.email)+'?subject='+encodeURIComponent("Walkthrough  "+p.name)+'">Ask for a walkthrough</a></p></div>' : '')
     + '</div></div>'
     + '<div class="shots">'
+    + '<div class="frame wide"><video src="images/projects/'+esc(p.slug)+'-3.mp4" controls preload="metadata" playsinline style="width:100%;height:100%;object-fit:cover"></video></div>'
     + slot("images/projects/"+p.slug+"-1.jpg","The system running","wide")
     + slot("images/projects/"+p.slug+"-2.jpg","Workflow or admin view","wide")
-    + '<div class="frame wide"><video src="images/projects/'+esc(p.slug)+'-3.mp4" controls preload="metadata" playsinline style="width:100%;height:100%;object-fit:cover"></video></div>'
     + '</div>'
     + '<div class="block"><h3>What it is</h3><p>'+txt(p.what)+'</p>'
     + '<h3>The problem it solves</h3><p>'+txt(p.problem)+'</p>'
