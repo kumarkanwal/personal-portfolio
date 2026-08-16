@@ -51,8 +51,15 @@
 [data-theme="dark"] .themebtn .moon{display:block}
 [data-theme="dark"] .btn--dark{background:var(--signal);border-color:var(--signal)}
 [data-theme="dark"] .btn--dark:hover{background:var(--signal-ink);border-color:var(--signal-ink)}
-
-
+[data-theme="dark"] .filters button[aria-pressed=true]{background:var(--signal);border-color:var(--signal);color:#fff}
+[data-theme="dark"] #ask{
+  --paper:#FFFFFF; --tint:#F5F8FC; --ink:#0A1B2D; --body:#4C5C70; --muted:#5F6D80;
+  --line:#E3E9F1; --line-soft:#EEF2F7;
+  --signal:#1F5FD1; --signal-ink:#17408C; --signal-tint:#E9F1FD;
+  --run:#0F7A55; --run-tint:#E4F2EC; --leak:#B4552F;
+  background:#FFFFFF;
+}
+[data-theme="dark"] #ask{border-bottom:1px solid #E3E9F1}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--paper);color:var(--body);font-family:var(--text);font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased}
