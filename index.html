@@ -49,6 +49,10 @@
 .themebtn .moon{display:none}
 [data-theme="dark"] .themebtn .sun{display:none}
 [data-theme="dark"] .themebtn .moon{display:block}
+[data-theme="dark"] .btn--dark{background:var(--signal);border-color:var(--signal)}
+[data-theme="dark"] .btn--dark:hover{background:var(--signal-ink);border-color:var(--signal-ink)}
+[data-theme="dark"] .tech .mono{background:#1B3350;color:#EAF1F9}
+
 
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -460,7 +464,7 @@ var STACK = [
   {n:"SQL",          mono:"SQL",                              k:"Languages"},
   {n:"Bash",         i:"bash/bash-original",                  k:"Languages"},
 
-  {n:"OpenAI API",   si:"openai",                          k:"AI & agents"},
+  {n:"OpenAI API",   si:"openai/888888",   k:"AI & agents"},
   {n:"LangChain",    si:"langchain",                       k:"AI & agents"},
   {n:"RAG / vector search", mono:"RAG",                       k:"AI & agents"},
   {n:"Prompt evaluation",   mono:"EVAL",                      k:"AI & agents"},
