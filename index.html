@@ -582,7 +582,7 @@ var PROJECTS = [
 
 {
   slug: "ultrasound-report-generator",
-  cat: "products",
+  cat: "Products",
   live: true,
   url: "https://doctor-report-generator.kanwalkumar.com/",
   ask: false,
@@ -614,32 +614,77 @@ var PROJECTS = [
 
   problem: "Ultrasound reports contain a large amount of repeated structure. Doctors often write the same organ findings, examination headings, hospital details and signature information again and again, while only a small part of each report changes for the individual patient. That makes reporting slower and also makes formatting inconsistent. I built the system so the reusable parts are configured once and the doctor only handles the information that changes for each patient.",
 
-  built: [
-    "A report workspace where the doctor selects the examination and report title before entering patient information.",
+built: [
+  "A report workspace where the doctor selects the examination and report title before entering patient information.",
 
-    "Structured patient fields for name, referral information, date, age and sex, which are automatically placed into the formatted report.",
+  "Structured patient fields for name, referral information, date, age and sex, which are automatically placed into the formatted report.",
 
-    "A reusable findings system where sections such as Liver, Kidneys, Pancreas, Spleen, Bladder and other examination findings can be enabled or excluded from an individual report.",
+  "A reusable findings system where sections such as Liver, Kidneys, Pancreas, Spleen, Bladder and other examination findings can be enabled or excluded from an individual report.",
 
-    "Pre-written finding phrases so common normal or abnormal findings can be selected instead of typed repeatedly, while still allowing the doctor to edit the text when a case needs something different.",
+  "Pre-written finding phrases so common normal or abnormal findings can be selected instead of typed repeatedly, while still allowing the doctor to edit the text when a case needs something different.",
 
-    "Support for report-specific values and measurements, allowing the doctor to fill placeholders such as organ dimensions and volumes directly from the reporting interface.",
+  "Support for report-specific values and measurements, allowing the doctor to fill placeholders such as organ dimensions and volumes directly from the reporting interface.",
 
-    "A live report preview that updates while the doctor works, so the final printed document can be checked before it is saved or printed.",
+  "A live report preview that updates while the doctor works, so the final printed document can be checked before it is saved or printed.",
 
-    "A print-ready A4 layout containing the hospital letterhead, patient information, examination findings and the doctor's signature and credentials.",
+  "A print-ready A4 layout containing the hospital letterhead, patient information, examination findings and the doctor's signature and credentials.",
 
-    "Report history with patient/date search, allowing previous reports to be reopened and reprinted instead of recreated.",
+  "Report history with patient/date search, allowing previous reports to be reopened and reprinted instead of recreated.",
 
-    "A clinic settings area where the hospital name, department and logo can be configured once and reused automatically on future reports.",
+  "A clinic settings area where the hospital name, department and logo can be configured once and reused automatically on future reports.",
 
-    "A configurable doctor signature block with the doctor's name and multiple credential lines printed automatically at the bottom of reports.",
+  "A configurable doctor signature block with the doctor's name and multiple credential lines printed automatically at the bottom of reports.",
 
-    "A reusable finding library where report sections and their available phrases can be created, edited, enabled or disabled.",
+  "A reusable finding library where report sections and their available phrases can be created, edited, enabled or disabled.",
 
-    "A configurable examination library where different ultrasound examination types can have their own report titles, findings and section order."
-  ]
+  "A configurable examination library where different ultrasound examination types can have their own report titles, findings and section order."
+],
+
+nodes: [
+  {
+    t: "Select examination",
+    s: "Template",
+    d: "The doctor chooses the ultrasound examination. The system loads the relevant report sections, findings and configured fields."
+  },
+  {
+    t: "Enter patient details",
+    s: "Patient",
+    d: "Patient name, referral information, age, sex and examination date are entered once and automatically placed into the report."
+  },
+  {
+    t: "Choose findings",
+    s: "Findings",
+    d: "The doctor selects the findings relevant to the examination and can edit the generated text whenever the case requires something different."
+  },
+  {
+    t: "Add measurements",
+    s: "Values",
+    d: "Measurements and examination-specific values are entered into the structured fields and inserted into the corresponding report text."
+  },
+  {
+    t: "Preview report",
+    s: "Preview",
+    d: "The formatted A4 report updates while the doctor works, allowing the final document to be checked before saving."
+  },
+  {
+    t: "Save or print",
+    s: "Output",
+    d: "The completed report can be stored in report history and printed or saved as a PDF."
+  }
+],
+
+hard: {
+  t: "The interesting problem",
+  d: "The main challenge was making the system flexible enough for different ultrasound examinations without building a separate form for every report type. Examinations, findings and report sections are configurable, so the doctor can reuse the same reporting system while each examination still has its own structure."
 },
+
+learn: "I would continue improving the template system and make examination configuration even more flexible, so new report types and specialised fields can be added without changing the application code.",
+
+links: [
+  ["Live app", "https://doctor-report-generator.kanwalkumar.com/"]
+]
+},
+
 
   {
   slug:"fast-track-supply", cat:"Websites", live:true, url:"https://fasttracksupply.com.au/", ask:false,
