@@ -566,6 +566,8 @@ var PROJECTS = [
     "Two emails in parallel: the enquiry to me with the sender's details, and a confirmation back to them so nobody is left guessing.",
     "Sent over authenticated SMTP with proper DNS records rather than a default mail function, because deliverability is the whole point of the system."
   ],
+
+  
   nodes:[
     {t:"Form submitted", s:"Browser",  d:"Validated in the browser first for fast feedback  but that check is a courtesy to the user, not a defence. Everything is re-checked server-side."},
     {t:"Webhook receives", s:"n8n",    d:"CORS restricted to my domains and a shared-secret header required. A request without both never reaches the rest of the workflow."},
@@ -577,6 +579,68 @@ var PROJECTS = [
   learn:"I would log every submission to a database as well as emailing it. Right now the only record is my inbox, so a mail failure loses the enquiry entirely with nothing to recover from. A row in a table costs one node and turns a silent loss into something I can replay.",
   links:[["Try the form","https://kanwalkumar.com/#/#contact"]]
 },
+
+{
+  slug: "ultrasound-report-generator",
+  cat: "products",
+  live: true,
+  url: "https://doctor-report-generator.kanwalkumar.com/",
+  ask: false,
+
+  name: "Ultrasound Report Generator — clinical reporting web app",
+
+  tagline: "Doctors select an examination, enter patient details and findings, then generate, save and print a formatted ultrasound report without rebuilding it from scratch.",
+
+  result: "Turns a repetitive manual reporting process into a reusable workflow — patient details, findings and measurements flow directly into a print-ready clinical report.",
+
+  stack: [
+    "Web App",
+    "Dynamic Forms",
+    "Report Generation",
+    "Print / PDF",
+    "Persistent Storage"
+  ],
+
+  meta: [
+    ["Type", "Clinical workflow tool — production"],
+    ["Role", "Sole engineer"],
+    ["Status", "Live"],
+    ["Use case", "Ultrasound reporting"],
+    ["Output", "A4 printable report / PDF"],
+    ["Live", "doctor-report-generator.kanwalkumar.com"]
+  ],
+
+  what: "A browser-based ultrasound reporting system built for doctors who repeatedly create reports from the same examination structures. The doctor selects an examination, enters the patient's details, chooses the relevant findings, fills in measurements where required and sees the finished report update alongside the form. The completed report can then be saved to history, reopened later or printed as an A4 report.",
+
+  problem: "Ultrasound reports contain a large amount of repeated structure. Doctors often write the same organ findings, examination headings, hospital details and signature information again and again, while only a small part of each report changes for the individual patient. That makes reporting slower and also makes formatting inconsistent. I built the system so the reusable parts are configured once and the doctor only handles the information that changes for each patient.",
+
+  built: [
+    "A report workspace where the doctor selects the examination and report title before entering patient information.",
+
+    "Structured patient fields for name, referral information, date, age and sex, which are automatically placed into the formatted report.",
+
+    "A reusable findings system where sections such as Liver, Kidneys, Pancreas, Spleen, Bladder and other examination findings can be enabled or excluded from an individual report.",
+
+    "Pre-written finding phrases so common normal or abnormal findings can be selected instead of typed repeatedly, while still allowing the doctor to edit the text when a case needs something different.",
+
+    "Support for report-specific values and measurements, allowing the doctor to fill placeholders such as organ dimensions and volumes directly from the reporting interface.",
+
+    "A live report preview that updates while the doctor works, so the final printed document can be checked before it is saved or printed.",
+
+    "A print-ready A4 layout containing the hospital letterhead, patient information, examination findings and the doctor's signature and credentials.",
+
+    "Report history with patient/date search, allowing previous reports to be reopened and reprinted instead of recreated.",
+
+    "A clinic settings area where the hospital name, department and logo can be configured once and reused automatically on future reports.",
+
+    "A configurable doctor signature block with the doctor's name and multiple credential lines printed automatically at the bottom of reports.",
+
+    "A reusable finding library where report sections and their available phrases can be created, edited, enabled or disabled.",
+
+    "A configurable examination library where different ultrasound examination types can have their own report titles, findings and section order."
+  ]
+},
+
   {
   slug:"fast-track-supply", cat:"Websites", live:true, url:"https://fasttracksupply.com.au/", ask:false,
   name:"Fast Track Supply  wholesale site with AI assistant",
