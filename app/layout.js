@@ -39,11 +39,6 @@ const personJsonLd = {
   image: "https://kanwalkumar.com/images/kanwal.jpg",
   jobTitle: "AI & Automation Engineer",
   email: "mailto:kanwalkumarofficial@gmail.com",
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "Karachi",
-    addressCountry: "PK",
-  },
   sameAs: [
     "https://www.linkedin.com/in/kanwal-kumar-ai/",
     "https://github.com/kumarkanwal",

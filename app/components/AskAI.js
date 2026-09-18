@@ -74,7 +74,7 @@ export default function AskAI() {
           Retrieval over my case studies, project notes and CV. It shows the passage it used, and it says so when it does not know instead of guessing. That refusal is deliberate it is the difference between a demo and something you would put in front of a customer.
         </p>
         <div className="rag">
-          <div className="rag__bar"><i /><span>Grounded assistant live</span></div>
+          <div className="rag__bar"><i /><span>Grounded assistant — live</span></div>
           <div className="rag__body">
             <div className="rag__seed">
               {RAG_SEEDS.map((seed) => <button type="button" onClick={() => ask(seed)} key={seed}>{seed}</button>)}
@@ -82,7 +82,7 @@ export default function AskAI() {
             <div className="chat">
               <div className="chat__log" ref={logRef} role="log" aria-live="polite">
                 {!messages.length && !busy && (
-                  <div className="chat__empty">Ask anything about my work. Answers come from my own case studies and CV, and it says so when it does not know rather than guessing. Eight questions per visit enough to judge whether it is real.</div>
+                  <div className="chat__empty">Ask anything about my work. Answers come from my own case studies and CV, and it says so when it does not know rather than guessing. Eight questions per visit — enough to judge whether it is real.</div>
                 )}
                 {messages.map((message, index) => (
                   <div className={`msg msg--${message.kind}`} key={index}>

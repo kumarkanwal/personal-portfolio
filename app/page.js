@@ -1,5 +1,5 @@
 import Hero from "./components/Hero";
-import Metrics from "./components/Metrics";
+import About from "./components/About";
 import Stack from "./components/Stack";
 import AskAI from "./components/AskAI";
 import Projects from "./components/Projects";
@@ -13,13 +13,13 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <Metrics />
+      <About />
       <Stack />
-      <AskAI />
+      <Experience />
       <Projects />
+      <AskAI />
       <Approach />
       <References />
-      <Experience />
       <FAQ />
       <Contact />
     </>

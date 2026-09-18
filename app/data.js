@@ -9,14 +9,16 @@ export const CONTACT = {
   apiBase: "https://api.kanwalkumar.com"
 };
 
+export const VOICE_ENABLED = false;
+export const VOICE_ENDPOINT = "";
+
 export const PROFILE = {
   facts: [
-    ["Based in ", "Karachi, Pakistan"], 
     ["Working hours", "9AM – 5 PM ET"],
     ["Overlap", "Full UK / US Day"],
     ["Remote", "Yes"],
-    ["Relocation", "open"],
-    ["Experience", "5 years Freelance Experience"]
+    ["Relocation", "Open"],
+    ["Experience", "5 years freelance"]
   ],
   metrics: [
     ["3", "production systems still running", ""],
@@ -73,7 +75,7 @@ export const PROJECTS = [
   result:"Live on this page. Four model providers behind it, free tiers first, so a rate limit on one never takes it down.",
   stack:["Python","FastAPI","LangChain","Chroma","Docker","Groq / Gemini / Cerebras"],
   meta:[
-    ["Type","Personal project  production"],
+    ["Type","Personal project — production"],
     ["Role","Sole engineer"],
     ["Built in","1 week"],
     ["Live since","August 2026"],
@@ -82,10 +84,10 @@ export const PROJECTS = [
   ],
   
   what:"A FastAPI service that retrieves over my case studies, CV and project notes, and answers questions about my work. It shows which document each answer came from, and says it does not know rather than inventing a detail. It is the assistant on the Ask my AI section of this site.",
-  problem:"A portfolio asks you to read. A recruiter with forty tabs open does not read  they skim for one thing: production experience, a specific stack, or what I am weakest at. This answers that directly. The harder problem is that every public LLM demo invents things, and one invented detail about my own CV would make a recruiter discard everything else on this site.",
+  problem:"A portfolio asks you to read. A recruiter with forty tabs open does not read — they skim for one thing: production experience, a specific stack, or what I am weakest at. This answers that directly. The harder problem is that every public LLM demo invents things, and one invented detail about my own CV would make a recruiter discard everything else on this site.",
   built:[
     "FastAPI backend, LangChain composing the retrieval chain and per-session history, Chroma as the vector store.",
-    "Local embeddings rather than an API. Embeddings cannot fall back between providers  an index built with one model is meaningless to another  so moving them off the network removed that whole class of failure.",
+    "Local embeddings rather than an API. Embeddings cannot fall back between providers — an index built with one model is meaningless to another — so moving them off the network removed that whole class of failure.",
     "Four chat providers in a fallback chain, free tiers first, paid last and normally never reached. If one is rate-limited or down, the next answers the same request.",
     "Rate limiting in three layers: per session, per IP per day, and a global daily kill switch. Every check runs before the model call, so a blocked request costs nothing.",
     "Input length capped in the request schema and output tokens capped on the model, so no single request can be expensive.",
@@ -93,25 +95,25 @@ export const PROJECTS = [
     "Deployed on my own VPS behind a reverse proxy with automatic TLS."
   ],
   nodes:[
-    {t:"Visitor asks",   s:"Frontend", d:"Session id generated in the browser. The counter is honest but bypassable  that layer is politeness, not security."},
+    {t:"Visitor asks",   s:"Frontend", d:"Session id generated in the browser. The counter is honest but bypassable — that layer is politeness, not security."},
     {t:"Check quota",    s:"Limits",   d:"Session, IP and global counters checked before anything else. A blocked request never reaches a model, so abuse costs nothing."},
     {t:"Retrieve",       s:"Chroma",   d:"Top chunks from my own documents, embedded locally. The filename travels with each chunk so the answer can cite its source."},
     {t:"Ground the prompt", s:"Prompt", d:"The model is instructed to answer only from retrieved context, and to hand over an email address when it cannot. Refusing is a defined outcome, not a failure."},
     {t:"Call a model",   s:"Fallback", d:"Groq first for latency. If it fails, Gemini, then Cerebras, then OpenRouter, on the same request. The visitor never sees a provider outage."},
     {t:"Answer + source", s:"Response", d:"The reply, the documents it came from, and how many questions are left. Showing the source is what separates this from a chatbot that makes things up."}
   ],
-  hard:{t:"The interesting problem",d:"Getting the model to refuse. Asked about a skill that is not in its context, a model will reach for a plausible sentence  and a plausible sentence about my own CV is a lie a recruiter will catch. The fix was not one instruction but three together: a low temperature, a prompt that treats an unanswerable question as a normal outcome with a defined response, and a corpus that states my weaknesses explicitly so there is honest material to retrieve instead of a gap to fill. The second problem was subtler: the obvious fallback design rotates every API call across providers including embeddings, which does not error  it just quietly returns irrelevant results."},
-  learn:"Stream the response. It waits for the full answer before showing anything, which on a slow provider reads as broken. I would also put the rate-limit counters in Redis from the start  in-memory is correct for one worker and silently wrong the moment there are two.",
+  hard:{t:"The interesting problem",d:"Getting the model to refuse. Asked about a skill that is not in its context, a model will reach for a plausible sentence — and a plausible sentence about my own CV is a lie a recruiter will catch. The fix was not one instruction but three together: a low temperature, a prompt that treats an unanswerable question as a normal outcome with a defined response, and a corpus that states my weaknesses explicitly so there is honest material to retrieve instead of a gap to fill. The second problem was subtler: the obvious fallback design rotates every API call across providers including embeddings, which does not error — it just quietly returns irrelevant results."},
+  learn:"Stream the response. It waits for the full answer before showing anything, which on a slow provider reads as broken. I would also put the rate-limit counters in Redis from the start — in-memory is correct for one worker and silently wrong the moment there are two.",
   links:[["Try it on this page","#/#ask"],["Source","https://github.com/kumarkanwal/kanwal-kumar-ai-portfolio-rag-aiagent"]]
 },
 {
   slug:"contact-automation", cat:"N8N & Automation", live:true, url:"https://kanwalkumar.com/#/#contact", ask:false,
-  name:"Contact pipeline  n8n workflow behind this site",
-  tagline:"The form on this page. Validates, filters bots, notifies me and confirms to the sender  no inbox babysitting.",
+  name:"Contact pipeline — n8n workflow behind this site",
+  tagline:"The form on this page. Validates, filters bots, notifies me and confirms to the sender — no inbox babysitting.",
   result:"Every enquiry acknowledged within seconds, and I have never lost one to a spam folder or a missed notification.",
   stack:["n8n","Webhooks","SMTP","JavaScript"],
   meta:[
-    ["Type","Personal infrastructure  production"],
+    ["Type","Personal infrastructure — production"],
     ["Role","Sole engineer"],
     ["Built in","1 day"],
     ["Live since","August 2026"],
@@ -119,11 +121,11 @@ export const PROJECTS = [
     ["Try it","The contact form on this site"]
   ],
   what:"The automation behind the contact form on this page. A webhook receives the submission, screens it, emails me the enquiry and sends the sender an immediate confirmation. Self-hosted n8n on my own VPS.",
-  problem:"A contact form that only emails you is a form that quietly fails. The sender gets no acknowledgement and has no idea whether it went through, and you find out about the failure when someone follows up angrily on LinkedIn a week later  or never. The second problem is bots: a public form with no filtering fills your inbox with junk until you stop reading it.",
+  problem:"A contact form that only emails you is a form that quietly fails. The sender gets no acknowledgement and has no idea whether it went through, and you find out about the failure when someone follows up angrily on LinkedIn a week later — or never. The second problem is bots: a public form with no filtering fills your inbox with junk until you stop reading it.",
   built:[
     "Webhook trigger with CORS locked to my own domains, so the endpoint only accepts submissions from this site.",
     "A shared-secret header on every request, so a bot hitting the webhook URL directly is rejected before anything runs.",
-    "A honeypot field, hidden from humans and invisible to screen readers. Bots fill it, people cannot, and anything with it filled is dropped silently rather than bounced  a rejection message tells a bot what to fix.",
+    "A honeypot field, hidden from humans and invisible to screen readers. Bots fill it, people cannot, and anything with it filled is dropped silently rather than bounced — a rejection message tells a bot what to fix.",
     "Field validation in the workflow rather than trusting the browser, since client-side validation is convenience, not security.",
     "Two emails in parallel: the enquiry to me with the sender's details, and a confirmation back to them so nobody is left guessing.",
     "Sent over authenticated SMTP with proper DNS records rather than a default mail function, because deliverability is the whole point of the system."
@@ -131,13 +133,13 @@ export const PROJECTS = [
 
   
   nodes:[
-    {t:"Form submitted", s:"Browser",  d:"Validated in the browser first for fast feedback  but that check is a courtesy to the user, not a defence. Everything is re-checked server-side."},
+    {t:"Form submitted", s:"Browser",  d:"Validated in the browser first for fast feedback — but that check is a courtesy to the user, not a defence. Everything is re-checked server-side."},
     {t:"Webhook receives", s:"n8n",    d:"CORS restricted to my domains and a shared-secret header required. A request without both never reaches the rest of the workflow."},
-    {t:"Screen it",     s:"Filter",    d:"Honeypot checked and fields validated. Bot submissions are dropped silently  returning an error just tells the bot which field to fix next time."},
+    {t:"Screen it",     s:"Filter",    d:"Honeypot checked and fields validated. Bot submissions are dropped silently — returning an error just tells the bot which field to fix next time."},
     {t:"Notify me",     s:"SMTP",      d:"The enquiry lands in my inbox with the sender's details, so I can reply directly rather than through a dashboard."},
     {t:"Confirm to sender", s:"SMTP",  d:"An immediate confirmation, so the sender knows it arrived. This is the part most contact forms skip, and it is the part that decides whether someone follows up or assumes you ignored them."}
   ],
-  hard:{t:"The interesting problem",d:"Deliverability, not the workflow. Automated mail from a new domain lands in spam by default  the workflow can run perfectly and the enquiry still never gets read, and you will not know, because a spam-foldered email produces no error anywhere. Getting it right meant authenticated SMTP with the DNS records configured before going live rather than after, and then actually testing delivery into Gmail and Outlook instead of assuming a green tick in n8n meant the message arrived."},
+  hard:{t:"The interesting problem",d:"Deliverability, not the workflow. Automated mail from a new domain lands in spam by default — the workflow can run perfectly and the enquiry still never gets read, and you will not know, because a spam-foldered email produces no error anywhere. Getting it right meant authenticated SMTP with the DNS records configured before going live rather than after, and then actually testing delivery into Gmail and Outlook instead of assuming a green tick in n8n meant the message arrived."},
   learn:"I would log every submission to a database as well as emailing it. Right now the only record is my inbox, so a mail failure loses the enquiry entirely with nothing to recover from. A row in a table costs one node and turns a silent loss into something I can replay.",
   links:[["Try the form","https://kanwalkumar.com/#/#contact"]]
 },
@@ -250,12 +252,12 @@ links: [
 
   {
   slug:"fast-track-supply", cat:"Websites", live:true, url:"https://fasttracksupply.com.au/", ask:false,
-  name:"Fast Track Supply  wholesale site with AI assistant",
+  name:"Fast Track Supply — wholesale site with AI assistant",
   tagline:"Took a wholesale business from no online presence to a catalogue site with a RAG assistant, in 7 days.",
-  result:"Their first online presence  buyers can now find the range and enquire without already knowing the phone number.",
+  result:"Their first online presence — buyers can now find the range and enquire without already knowing the phone number.",
   stack:["Next.js","Node.js","OpenAI","RAG / vector search","Vercel"],
   meta:[
-    ["Type","Client project  production"],
+    ["Type","Client project — production"],
     ["Role","Sole engineer and designer"],
     ["Client","Wholesale supplier, Australia"],
     ["Built in","7 days"],
@@ -263,25 +265,25 @@ links: [
     ["Status","Live on fasttracksupply.com.au "]
   ],
   what:"A four-page site with a product catalogue, an admin panel the client runs themselves, a two-way enquiry form, and a RAG assistant that answers buyer questions from the company's own information.",
-  problem:"They had nothing  no site at all. Buyers had no way to see the range or make an enquiry, and the business had no way to show what it stocked. Every enquiry depended on someone already knowing the phone number.",
+  problem:"They had nothing — no site at all. Buyers had no way to see the range or make an enquiry, and the business had no way to show what it stocked. Every enquiry depended on someone already knowing the phone number.",
   built:[
     "Four-page Next.js site with a Node.js backend, deployed on Vercel.",
     "Product catalogue driven by an admin panel, so the client adds and edits products without coming back to me.",
     "Enquiry form that emails the business and sends the buyer an automatic confirmation, so neither side is left guessing.",
     "A RAG assistant grounded on the company's own information, answering whatever a buyer asks about the business rather than from general knowledge.",
-    "On-page SEO  page titles, meta descriptions, semantic headings, image alt text and a sitemap, with the site verified in Google Search Console.",
+    "On-page SEO — page titles, meta descriptions, semantic headings, image alt text and a sitemap, with the site verified in Google Search Console.",
     "Cloudflare in front for DNS, caching and SSL, with the .com.au domain queued behind the client's registrar transfer.",
     "Mobile-first layout, since wholesale buyers browse on a phone between deliveries."
   ],
   nodes:[
-    {t:"Buyer arrives",  s:"Entry",     d:"Search or direct. Before this site there was no entry point at all  the business was invisible to anyone who did not already have the number."},
+    {t:"Buyer arrives",  s:"Entry",     d:"Search or direct. Before this site there was no entry point at all — the business was invisible to anyone who did not already have the number."},
     {t:"Browse range",   s:"Catalogue", d:"Products are served from the database, not hardcoded, so the range on the site is always what the client last published."},
-    {t:"Ask the assistant", s:"RAG",    d:"Answers any question about the business from the company's own information  the range, the terms, how ordering works  rather than making the buyer hunt through pages."},
+    {t:"Ask the assistant", s:"RAG",    d:"Answers any question about the business from the company's own information — the range, the terms, how ordering works — rather than making the buyer hunt through pages."},
     {t:"Enquire",        s:"Form",      d:"The buyer submits what they are after. Validated before submit, so a bad email address does not silently lose the enquiry."},
     {t:"Both sides notified", s:"Email",d:"The enquiry goes to the business and a confirmation goes back to the buyer at the same time, so nothing sits in an inbox unacknowledged."},
     {t:"Client updates", s:"Admin",     d:"The client adds, edits and removes products themselves. No dependency on me for a price change or a new line."}
   ],
-  hard:{t:"The interesting problem",d:"Scope, in a seven-day build. A catalogue, an admin panel, a two-way enquiry flow and a grounded assistant is more than a week normally holds. I built the narrowest working version of each in order  catalogue, then admin, then enquiries, then the assistant  so that if the week ran out the client still had a complete site rather than four half-finished features. It shipped on time with all four."},
+  hard:{t:"The interesting problem",d:"Scope, in a seven-day build. A catalogue, an admin panel, a two-way enquiry flow and a grounded assistant is more than a week normally holds. I built the narrowest working version of each in order — catalogue, then admin, then enquiries, then the assistant — so that if the week ran out the client still had a complete site rather than four half-finished features. It shipped on time with all four."},
   learn:"I would set up Search Console and Cloudflare on day one rather than at the end. Indexing does not start until the site is verified, and doing it last cost the client a few days of visibility they did not need to lose.",
   links:[["Live site","https://fasttracksupply.com.au/"]]
 },
@@ -329,19 +331,19 @@ links: [
 
 export const REFERENCES = [
   {q:"I've seen Kanwal build AI automation solutions from the ground up, taking ideas from concept to production with a strong focus on quality and reliability.",
-   n:"Nasir Hussain", r:"Agentic AI Engineer @ Modulers Pvt Ltd.", src:"", img:"/images/refs/nasir-hussain.jpg"},
+   n:"Nasir Hussain", r:"Agentic AI Engineer @ Modulers Pvt Ltd.", src:"", img:"/images/refs/nasir-hussain.jpg", linkedin:""},
   {q:"I've known Kanwal for over 5 years. His passion for automation is genuine he's always looking for ways to build systems that eliminate repetitive work, whether for clients or for his own daily workflows.",
-   n:"Abrar Hussain", r:"Founder & CEO, CodeSOft", src:"", img:"/images/refs/abrar-hussain.png"},
+   n:"Abrar Hussain", r:"Founder & CEO, CodeSOft", src:"", img:"/images/refs/abrar-hussain.png", linkedin:""},
   {q:"Kanwal was one of the strongest students in the class. He consistently took initiative, built projects beyond the assigned work, and showed genuine Interest for learning and creating new solutions.",
-   n:"Muhammad Saad Naseem", r:"Agentic AI Backend Engineer", src:"", img:"/images/refs/saad.jpg"},
+   n:"Muhammad Saad Naseem", r:"Agentic AI Backend Engineer", src:"", img:"/images/refs/saad.jpg", linkedin:""},
    {q:"Kanwal developed my taxi booking system in a very professional and excellent way. The system is fast, smooth and user-friendly, and every requirement was completed on time.",
-   n:"Shahzad khan", r:"CEO,Quick Taxi Amsterdam", src:"Client", img:""},
+   n:"Shahzad khan", r:"CEO,Quick Taxi Amsterdam", src:"Client", img:"", linkedin:""},
 ];
 
 export const EXPERIENCE = [
   {
     when: "Nov 2025 – May 2026",
-    role: "AI Automation Consultant & Developer  CodePro Software and Web Services",
+    role: "AI Automation Developer — CodePro Software and Web Services",
     b: [
       "Built AI agents and workflow automations using LLMs, n8n, and Make.",
       "Developed a multilingual WhatsApp AI agent supporting 95+ languages.",

@@ -44,7 +44,7 @@ export default function Stack() {
           ))}
         </div>
         <p className="small dim" style={{ marginTop: 26 }}>
-          Listed only where I have shipped something to production with it. Comfortable picking up anything adjacent most of this was learned on a deadline.
+          Listed only where I have shipped something to production with it. Comfortable picking up anything adjacent — most of this was learned on a deadline.
         </p>
       </div>
     </section>

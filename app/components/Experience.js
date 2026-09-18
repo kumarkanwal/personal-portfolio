@@ -2,7 +2,7 @@ import { CERTS, EXPERIENCE } from "../data";
 
 export default function Experience() {
   return (
-    <section className="band band--tint" data-rail="Experience">
+    <section className="band band--tint" id="experience" data-rail="Experience">
       <div className="wrap">
         <p className="eyebrow">Experience</p>
         <h2 style={{ maxWidth: "16ch" }}>Where I have done it.</h2>

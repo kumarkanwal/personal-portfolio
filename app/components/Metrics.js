@@ -39,14 +39,13 @@ function Count({ value, suffix }) {
 }
 
 export default function Metrics() {
-  const metrics = PROFILE.metrics.map((metric, index) => index === 0 ? [String(PROJECTS.length), metric[1], metric[2]] : metric);
+  const liveProjects = PROJECTS.filter((project) => project.live).length;
+  const metrics = PROFILE.metrics.map((metric, index) => index === 0 ? [String(liveProjects), metric[1], metric[2]] : metric);
   return (
-    <section data-rail="At a glance">
-      <div className="mstrip">
-        {metrics.map(([value, label, suffix]) => (
-          <div key={label}><Count value={value} suffix={suffix || ""} /><span>{label}</span></div>
-        ))}
-      </div>
-    </section>
+    <div className="mstrip">
+      {metrics.map(([value, label, suffix]) => (
+        <div key={label}><Count value={value} suffix={suffix || ""} /><span>{label}</span></div>
+      ))}
+    </div>
   );
 }

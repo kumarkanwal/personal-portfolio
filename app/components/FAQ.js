@@ -1,5 +1,5 @@
 const questions = [
-  ["Are you available, and from when?", "I am open to full-time and contract roles email or WhatsApp me and I will confirm a start date the same day."],
+  ["Are you available, and from when?", "I am open to full-time and contract roles — email or WhatsApp me and I will confirm a start date the same day."],
   ["What are your salary expectations?", "I would rather discuss compensation once I understand the role, the scope and the package as a whole. I am flexible for the right team and will give you a clear number on a call."],
   ["How much of this did you build yourself?", "Most of my projects have been solo, where I handled everything from planning to deployment. When specialized expertise was needed, I collaborated with trusted professionals from my network to deliver the best results."],
   ["Have you worked on a team, or only solo?", "I've collaborated on team projects during internships and university, while most freelance projects have been solo. I handle projects end-to-end, document my work for smooth handovers, and collaborate with trusted specialists when specific expertise is needed."],
@@ -11,7 +11,7 @@ const questions = [
 
 export default function FAQ() {
   return (
-    <section className="band" id="questions" data-rail="Questions">
+    <section className="band" id="questions" data-rail="FAQ">
       <div className="wrap">
         <p className="eyebrow">Straight answers</p>
         <h2 style={{ maxWidth: "18ch" }}>The screening questions, answered before you ask.</h2>

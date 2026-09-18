@@ -51,10 +51,11 @@ export default function Nav() {
           <span />
         </button>
         <div className={`nav__links${menuOpen ? " open" : ""}`}>
+          <Link href="/#about" onClick={closeMenu}>About</Link>
           <Link href="/#stack" onClick={closeMenu}>Stack</Link>
-          <Link href="/#ask" onClick={closeMenu}>Ask my AI</Link>
+          <Link href="/#experience" onClick={closeMenu}>Experience</Link>
           <Link href="/#projects" onClick={closeMenu}>Projects</Link>
-          <Link href="/#references" onClick={closeMenu}>References</Link>
+          <Link href="/#ask" onClick={closeMenu}>Ask my AI</Link>
           <button className="themebtn" aria-label="Toggle dark mode" type="button" onClick={toggleTheme}>
             <svg className="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <circle cx="12" cy="12" r="4" />
@@ -64,7 +65,7 @@ export default function Nav() {
               <path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z" />
             </svg>
           </button>
-          <Link className="btn btn--sm" href="/#contact" onClick={closeMenu}>Contact</Link>
+          <Link className="btn btn--sm" href="/#contact" onClick={closeMenu}>Let&apos;s talk →</Link>
         </div>
       </div>
       <div className="progress" style={{ width: `${progress}%` }} />

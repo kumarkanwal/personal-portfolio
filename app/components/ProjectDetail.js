@@ -1,7 +1,8 @@
+import { existsSync } from "node:fs";
+import path from "node:path";
 import Link from "next/link";
 import { Fragment } from "react";
 import { CONTACT } from "../data";
-import { MediaFrame } from "./Media";
 import WorkflowCanvas from "./WorkflowCanvas";
 
 function internalHref(href) {
@@ -19,6 +20,12 @@ function ActionLink({ href, children }) {
 }
 
 export default function ProjectDetail({ project }) {
+  const media = [
+    { type: "video", name: `${project.slug}-3.mp4` },
+    { type: "image", name: `${project.slug}-1.jpg`, alt: "The system running" },
+    { type: "image", name: `${project.slug}-2.jpg`, alt: "Workflow or admin view" },
+  ].filter((item) => existsSync(path.join(process.cwd(), "public", "images", "projects", item.name)));
+
   return (
     <section className="band band--flat wrap" data-rail="Project" style={{ paddingTop: "clamp(38px,6vw,68px)" }}>
       <Link className="back" href="/#projects">← All projects</Link>
@@ -52,11 +59,15 @@ export default function ProjectDetail({ project }) {
           )}
         </div>
       </div>
-      <div className="shots">
-        <div className="frame wide"><video src={`/images/projects/${project.slug}-3.mp4`} controls preload="metadata" playsInline style={{ width: "100%", height: "100%", objectFit: "cover" }} /></div>
-        <MediaFrame src={`/images/projects/${project.slug}-1.jpg`} label="The system running" shape="wide" />
-        <MediaFrame src={`/images/projects/${project.slug}-2.jpg`} label="Workflow or admin view" shape="wide" />
-      </div>
+      {!!media.length && (
+        <div className="shots">
+          {media.map((item) => item.type === "video" ? (
+            <div className="frame wide" key={item.name}><video src={`/images/projects/${item.name}`} controls preload="metadata" playsInline style={{ width: "100%", height: "100%", objectFit: "cover" }} /></div>
+          ) : (
+            <div className="frame wide" key={item.name}><img src={`/images/projects/${item.name}`} alt={item.alt} loading="lazy" /></div>
+          ))}
+        </div>
+      )}
       <div className="block">
         <h3>What it is</h3><p>{project.what}</p>
         <h3>The problem it solves</h3><p>{project.problem}</p>
