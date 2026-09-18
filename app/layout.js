@@ -2,6 +2,7 @@ import "./globals.css";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 import SiteEffects from "./components/SiteEffects";
+import AIWidgetProvider from "./components/AIWidget";
 
 export const metadata = {
   metadataBase: new URL("https://kanwalkumar.com"),
@@ -42,6 +43,7 @@ const personJsonLd = {
   sameAs: [
     "https://www.linkedin.com/in/kanwal-kumar-ai/",
     "https://github.com/kumarkanwal",
+    "https://www.upwork.com/freelancers/~0167e9a73f04b22487?mp_source=share",
   ],
   knowsAbout: [
     "Artificial Intelligence",
@@ -80,10 +82,12 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body>
-        <Nav />
-        <SiteEffects />
-        <main>{children}</main>
-        <Footer />
+        <AIWidgetProvider>
+          <Nav />
+          <SiteEffects />
+          <main>{children}</main>
+          <Footer />
+        </AIWidgetProvider>
       </body>
     </html>
   );

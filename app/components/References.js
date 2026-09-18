@@ -18,13 +18,30 @@ function LinkedInIcon() {
 }
 
 export default function References() {
+  const [showAll, setShowAll] = useState(false);
+  const initialCount = 3;
+  const visible = showAll ? REFERENCES : REFERENCES.slice(0, initialCount);
+  const remaining = Math.max(0, REFERENCES.length - initialCount);
+  const reduced = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function toggleReferences() {
+    if (!showAll) {
+      setShowAll(true);
+      return;
+    }
+    setShowAll(false);
+    window.requestAnimationFrame(() => {
+      document.getElementById("references")?.scrollIntoView({ behavior: reduced ? "auto" : "smooth" });
+    });
+  }
+
   return (
     <section className="band band--tint" id="references" data-rail="References">
       <div className="wrap">
         <p className="eyebrow">References</p>
         <h2 style={{ maxWidth: "22ch" }}>People who have watched me build something.</h2>
         <div className="tgrid">
-          {REFERENCES.map((person) => {
+          {visible.map((person) => {
             const initials = person.n.trim().split(/\s+/).map((word) => word[0]).slice(0, 2).join("").toUpperCase();
             return (
               <div className="tcard" key={person.n}>
@@ -47,6 +64,13 @@ export default function References() {
             );
           })}
         </div>
+        {REFERENCES.length > initialCount && (
+          <div className="list-toggle">
+            <button className="btn btn--ghost" type="button" onClick={toggleReferences}>
+              {showAll ? "Show less" : `Show more testimonials (${remaining} more)`}
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

@@ -60,7 +60,8 @@ export default function Contact() {
             <p style={{ marginTop: 20 }}>
               <a className="btn" href={`mailto:${CONTACT.email}`} target="_blank" rel="noopener">Email me</a>{" "}
               <a className="btn btn--ghost" href={CONTACT.linkedin} target="_blank" rel="noopener">LinkedIn</a>{" "}
-              <a className="btn btn--ghost" href={CONTACT.github} target="_blank" rel="noopener">GitHub</a>
+              <a className="btn btn--ghost" href={CONTACT.github} target="_blank" rel="noopener">GitHub</a>{" "}
+              <a className="btn btn--ghost" href={CONTACT.upwork} target="_blank" rel="noopener">Upwork</a>
             </p>
             <p className="small dim">I reply within 4 hours during my working hours (Mon–Fri • 9:00 AM – 5:00 PM ET). Faster on <a href={CONTACT.whatsapp} target="_blank" rel="noopener">WhatsApp</a>.</p>
           </div>

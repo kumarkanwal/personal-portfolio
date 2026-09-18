@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { CONTACT, PROFILE } from "../data";
+import { CONTACT, PROFILE, VOICE_ENABLED } from "../data";
 import { MediaFrame } from "./Media";
-import VoiceAgent from "./VoiceAgent";
+import { useAIWidget } from "./AIWidget";
 
 function LinkedInIcon() {
   return (
@@ -13,11 +13,17 @@ function LinkedInIcon() {
   );
 }
 
+function MicIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+      <rect x="9" y="2" width="6" height="12" rx="3" />
+      <path d="M5 10a7 7 0 0 0 14 0M12 17v5M8 22h8" />
+    </svg>
+  );
+}
+
 export default function Hero() {
-  function focusChat() {
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    window.setTimeout(() => document.getElementById("chatInput")?.focus(), reduced ? 0 : 500);
-  }
+  const { openChat, openVoice } = useAIWidget();
 
   return (
     <section className="hero wrap" data-rail="Hero">
@@ -42,8 +48,10 @@ export default function Hero() {
             <p className="canvas__title" style={{ marginBottom: 4 }}><span style={{ color: "var(--signal)" }} aria-hidden="true">✦</span> Ask my AI</p>
             <p className="small dim" style={{ margin: 0 }}>Instant answers about my work</p>
             <div className="hero__agent-actions">
-              <a className="btn" href="#ask" onClick={focusChat}>Chat with AI</a>
-              <VoiceAgent />
+              <button className="btn" type="button" onClick={openChat}>Chat with AI</button>
+              <button className="btn btn--ghost" type="button" onClick={openVoice}>
+                <MicIcon /> Talk to AI {!VOICE_ENABLED && <span className="chip">Soon</span>}
+              </button>
             </div>
           </div>
         </div>

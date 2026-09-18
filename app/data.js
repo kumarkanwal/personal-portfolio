@@ -3,6 +3,7 @@ export const CONTACT = {
   email: "kanwalkumarofficial@gmail.com",
   linkedin: "https://www.linkedin.com/in/kanwal-kumar-ai/",
   github: "https://github.com/kumarkanwal",
+  upwork: "https://www.upwork.com/freelancers/~0167e9a73f04b22487?mp_source=share",
   whatsapp: "https://wa.me/923133772883",
   cv: "/cv-kanwal-kumar.pdf",
   formEndpoint: "https://n8n.kanwalkumar.com/webhook/portfolio-contact",
@@ -69,7 +70,7 @@ export const CATS = ["AI agents","N8N & Automation","Websites","Products","Plugi
    ask  → private system, offer a walkthrough instead (use sparingly) */
 export const PROJECTS = [
   {
-  slug:"rag-agent", cat:"AI agents", live:true, url:"", ask:false,
+  slug:"rag-agent", cat:"AI agents", live:true, featured:true, url:"", ask:false,
   name:"This site's AI assistant: RAG over my own documents",
   tagline:"A grounded assistant that answers recruiter questions from my case studies, and refuses rather than guesses.",
   result:"Live on this page. Four model providers behind it, free tiers first, so a rate limit on one never takes it down.",
@@ -107,7 +108,7 @@ export const PROJECTS = [
   links:[["Try it on this page","#/#ask"],["Source","https://github.com/kumarkanwal/kanwal-kumar-ai-portfolio-rag-aiagent"]]
 },
 {
-  slug:"contact-automation", cat:"N8N & Automation", live:true, url:"https://kanwalkumar.com/#/#contact", ask:false,
+  slug:"contact-automation", cat:"N8N & Automation", live:true, featured:true, url:"https://kanwalkumar.com/#/#contact", ask:false,
   name:"Contact pipeline — n8n workflow behind this site",
   tagline:"The form on this page. Validates, filters bots, notifies me and confirms to the sender — no inbox babysitting.",
   result:"Every enquiry acknowledged within seconds, and I have never lost one to a spam folder or a missed notification.",
@@ -148,6 +149,7 @@ export const PROJECTS = [
   slug: "ultrasound-report-generator",
   cat: "Products",
   live: true,
+  featured: true,
   url: "https://doctor-report-generator.kanwalkumar.com/",
   ask: false,
 
@@ -251,7 +253,7 @@ links: [
 
 
   {
-  slug:"fast-track-supply", cat:"Websites", live:true, url:"https://fasttracksupply.com.au/", ask:false,
+  slug:"fast-track-supply", cat:"Websites", live:true, featured:false, url:"https://fasttracksupply.com.au/", ask:false,
   name:"Fast Track Supply — wholesale site with AI assistant",
   tagline:"Took a wholesale business from no online presence to a catalogue site with a RAG assistant, in 7 days.",
   result:"Their first online presence — buyers can now find the range and enquire without already knowing the phone number.",
@@ -288,7 +290,7 @@ links: [
   links:[["Live site","https://fasttracksupply.com.au/"]]
 },
 {
-  slug:"taxi-booking-plugin", cat:"Plugins", live:true, url:"https://quicktaxiamsterdam.nl/", ask:false,
+  slug:"taxi-booking-plugin", cat:"Plugins", live:true, featured:false, url:"https://quicktaxiamsterdam.nl/", ask:false,
   name:"WordPress taxi booking plugin",
   tagline:"Booking, fare calculation and payment — replacing a rented SaaS the client couldn't control.",
   result:"Cut a recurring $30–40/month subscription to zero, and gave the operator fare rules and booking data the paid tool never exposed.",
