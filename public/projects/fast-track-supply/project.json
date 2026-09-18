@@ -1,0 +1,99 @@
+{
+  "slug": "fast-track-supply",
+  "cat": "Websites",
+  "live": true,
+  "featured": false,
+  "url": "https://fasttracksupply.com.au/",
+  "ask": false,
+  "name": "Fast Track Supply — wholesale site with AI assistant",
+  "tagline": "Took a wholesale business from no online presence to a catalogue site with a RAG assistant, in 7 days.",
+  "result": "Their first online presence — buyers can now find the range and enquire without already knowing the phone number.",
+  "stack": [
+    "Next.js",
+    "Node.js",
+    "OpenAI",
+    "RAG / vector search",
+    "Vercel"
+  ],
+  "meta": [
+    [
+      "Type",
+      "Client project — production"
+    ],
+    [
+      "Role",
+      "Sole engineer and designer"
+    ],
+    [
+      "Client",
+      "Wholesale supplier, Australia"
+    ],
+    [
+      "Built in",
+      "7 days"
+    ],
+    [
+      "Live since",
+      "August 2026"
+    ],
+    [
+      "Status",
+      "Live on fasttracksupply.com.au "
+    ]
+  ],
+  "what": "A four-page site with a product catalogue, an admin panel the client runs themselves, a two-way enquiry form, and a RAG assistant that answers buyer questions from the company's own information.",
+  "problem": "They had nothing — no site at all. Buyers had no way to see the range or make an enquiry, and the business had no way to show what it stocked. Every enquiry depended on someone already knowing the phone number.",
+  "built": [
+    "Four-page Next.js site with a Node.js backend, deployed on Vercel.",
+    "Product catalogue driven by an admin panel, so the client adds and edits products without coming back to me.",
+    "Enquiry form that emails the business and sends the buyer an automatic confirmation, so neither side is left guessing.",
+    "A RAG assistant grounded on the company's own information, answering whatever a buyer asks about the business rather than from general knowledge.",
+    "On-page SEO — page titles, meta descriptions, semantic headings, image alt text and a sitemap, with the site verified in Google Search Console.",
+    "Cloudflare in front for DNS, caching and SSL, with the .com.au domain queued behind the client's registrar transfer.",
+    "Mobile-first layout, since wholesale buyers browse on a phone between deliveries."
+  ],
+  "nodes": [
+    {
+      "t": "Buyer arrives",
+      "s": "Entry",
+      "d": "Search or direct. Before this site there was no entry point at all — the business was invisible to anyone who did not already have the number."
+    },
+    {
+      "t": "Browse range",
+      "s": "Catalogue",
+      "d": "Products are served from the database, not hardcoded, so the range on the site is always what the client last published."
+    },
+    {
+      "t": "Ask the assistant",
+      "s": "RAG",
+      "d": "Answers any question about the business from the company's own information — the range, the terms, how ordering works — rather than making the buyer hunt through pages."
+    },
+    {
+      "t": "Enquire",
+      "s": "Form",
+      "d": "The buyer submits what they are after. Validated before submit, so a bad email address does not silently lose the enquiry."
+    },
+    {
+      "t": "Both sides notified",
+      "s": "Email",
+      "d": "The enquiry goes to the business and a confirmation goes back to the buyer at the same time, so nothing sits in an inbox unacknowledged."
+    },
+    {
+      "t": "Client updates",
+      "s": "Admin",
+      "d": "The client adds, edits and removes products themselves. No dependency on me for a price change or a new line."
+    }
+  ],
+  "hard": {
+    "t": "The interesting problem",
+    "d": "Scope, in a seven-day build. A catalogue, an admin panel, a two-way enquiry flow and a grounded assistant is more than a week normally holds. I built the narrowest working version of each in order — catalogue, then admin, then enquiries, then the assistant — so that if the week ran out the client still had a complete site rather than four half-finished features. It shipped on time with all four."
+  },
+  "learn": "I would set up Search Console and Cloudflare on day one rather than at the end. Indexing does not start until the site is verified, and doing it last cost the client a few days of visibility they did not need to lose.",
+  "links": [
+    [
+      "Live site",
+      "https://fasttracksupply.com.au/"
+    ]
+  ],
+  "date": "2026-08"
+}

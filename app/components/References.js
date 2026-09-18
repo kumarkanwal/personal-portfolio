@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { REFERENCES } from "../data";
 
 function Avatar({ person, initials }) {
   const [failed, setFailed] = useState(false);
@@ -17,11 +16,11 @@ function LinkedInIcon() {
   );
 }
 
-export default function References() {
+export default function References({ testimonials }) {
   const [showAll, setShowAll] = useState(false);
   const initialCount = 3;
-  const visible = showAll ? REFERENCES : REFERENCES.slice(0, initialCount);
-  const remaining = Math.max(0, REFERENCES.length - initialCount);
+  const visible = showAll ? testimonials : testimonials.slice(0, initialCount);
+  const remaining = Math.max(0, testimonials.length - initialCount);
   const reduced = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function toggleReferences() {
@@ -64,7 +63,7 @@ export default function References() {
             );
           })}
         </div>
-        {REFERENCES.length > initialCount && (
+        {testimonials.length > initialCount && (
           <div className="list-toggle">
             <button className="btn btn--ghost" type="button" onClick={toggleReferences}>
               {showAll ? "Show less" : `Show more testimonials (${remaining} more)`}

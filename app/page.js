@@ -8,18 +8,22 @@ import References from "./components/References";
 import Experience from "./components/Experience";
 import FAQ from "./components/FAQ";
 import Contact from "./components/Contact";
+import { getProjects, getTestimonials } from "./lib/content";
 
 export default function HomePage() {
+  const projects = getProjects();
+  const testimonials = getTestimonials();
+
   return (
     <>
       <Hero />
-      <About />
+      <About projects={projects} />
       <Stack />
       <Experience />
-      <Projects />
+      <Projects projects={projects} />
       <AskAI />
       <Approach />
-      <References />
+      <References testimonials={testimonials} />
       <FAQ />
       <Contact />
     </>

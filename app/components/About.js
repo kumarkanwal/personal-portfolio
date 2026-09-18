@@ -1,7 +1,7 @@
 import { CONTACT } from "../data";
 import Metrics from "./Metrics";
 
-export default function About() {
+export default function About({ projects }) {
   return (
     <>
       <section className="band band--flat band--after-hero" id="about" data-rail="About">
@@ -15,7 +15,7 @@ export default function About() {
           <p style={{ marginTop: 20 }}><a href={CONTACT.cv}>View my CV →</a></p>
         </div>
       </section>
-      <Metrics />
+      <Metrics projects={projects} />
     </>
   );
 }

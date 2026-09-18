@@ -1,0 +1,106 @@
+{
+  "slug": "taxi-booking-plugin",
+  "cat": "Plugins",
+  "live": true,
+  "featured": false,
+  "url": "https://quicktaxiamsterdam.nl/",
+  "ask": false,
+  "name": "WordPress taxi booking plugin",
+  "tagline": "Booking, fare calculation and payment — replacing a rented SaaS the client couldn't control.",
+  "result": "Cut a recurring $30–40/month subscription to zero, and gave the operator fare rules and booking data the paid tool never exposed.",
+  "stack": [
+    "PHP",
+    "WordPress",
+    "JavaScript",
+    "MySQL",
+    "Google Maps API",
+    "Mollie"
+  ],
+  "meta": [
+    [
+      "Type",
+      "Client project — production"
+    ],
+    [
+      "Role",
+      "Full stack developer"
+    ],
+    [
+      "Client",
+      "Taxi operator, Netherlands"
+    ],
+    [
+      "Built in",
+      "4 weeks"
+    ],
+    [
+      "Live since",
+      "May 2025"
+    ],
+    [
+      "Payments",
+      "Mollie"
+    ]
+  ],
+  "what": "A custom WordPress plugin that runs the whole booking end to end — the customer enters their journey, the plugin prices it from real distance, takes payment through Mollie, and both sides get a confirmation. The operator manages everything from wp-admin.",
+  "problem": "The client was renting a third-party booking tool for $30–40 a month and still couldn't change how it worked. Fields they didn't need, fields they did need that weren't there, no control over pricing rules, and no access to their own booking data. They were paying a subscription for something they didn't own.",
+  "built": [
+    "Booking form built into their existing WordPress theme — no external embed or iframe.",
+    "Google Maps API for address autocomplete and real route distance, so pickup and drop-off are validated as real locations rather than free text.",
+    "Fare calculated per kilometre, with fixed postcode-based rates overriding it where the operator wants a set price.",
+    "Fixed-rate table is importable as CSV, so the operator updates pricing in a spreadsheet instead of asking me.",
+    "Payment taken through Mollie — the standard Dutch gateway, and the one their customers already expect.",
+    "Server-side validation on every field: required fields, valid email, no past dates, and sanitised input before anything reaches the database.",
+    "Bookings stored in the site's own database, with a wp-admin panel to view, edit, delete and export to CSV.",
+    "Confirmation emails to both the operator and the customer, sent over SMTP rather than WordPress's default mail."
+  ],
+  "nodes": [
+    {
+      "t": "Enter the journey",
+      "s": "Form",
+      "d": "Pickup, drop-off, date, time, passengers and contact details. Addresses go through Google Maps autocomplete, so the operator never receives a destination that doesn't exist."
+    },
+    {
+      "t": "Price it",
+      "s": "Fare",
+      "d": "Distance comes from the Maps route, priced per kilometre — unless the postcode pair matches a fixed rate, which takes precedence. The operator maintains those rates as a CSV import."
+    },
+    {
+      "t": "Validate",
+      "s": "Checks",
+      "d": "Every field is checked server-side before anything is written: required fields, email format, no dates in the past, and sanitised input. Client-side validation is convenience, not security."
+    },
+    {
+      "t": "Take payment",
+      "s": "Mollie",
+      "d": "Mollie handles the transaction. The booking is only confirmed once payment clears, so the diary never fills with unpaid holds."
+    },
+    {
+      "t": "Save booking",
+      "s": "Database",
+      "d": "Written to the site's own database. The client owns the record rather than renting access to it from a SaaS."
+    },
+    {
+      "t": "Notify both sides",
+      "s": "Email",
+      "d": "Full booking details go to the operator and a confirmation to the customer, over SMTP. Neither side is left wondering whether it went through."
+    },
+    {
+      "t": "Manage",
+      "s": "wp-admin",
+      "d": "The operator views, edits, deletes and exports every booking to CSV from inside WordPress — no separate login, no export fee."
+    }
+  ],
+  "hard": {
+    "t": "The interesting problem",
+    "d": "Two things, and neither was the booking logic. WordPress's default mail is unreliable — confirmations regularly land in spam or never send at all — so I moved to SMTP with the mail port and DNS records configured properly from the start rather than discovering the problem after go-live. The second was the front end: the booking form had to sit inside the client's existing theme without looking bolted on, and the theme's own styles fought every layout decision. Scoping the plugin's CSS so it inherits the theme's typography but controls its own layout took longer than the booking flow itself."
+  },
+  "learn": "I started building before the client had confirmed the design, and reworked parts of it once he saw the first version. Now I get sign-off on a mockup first — the changes he wanted were reasonable, but they cost time that a five-minute approval at the start would have saved.",
+  "links": [
+    [
+      "Live site",
+      "https://quicktaxiamsterdam.nl/"
+    ]
+  ],
+  "date": "2025-05"
+}

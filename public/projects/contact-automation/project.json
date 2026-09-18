@@ -1,0 +1,92 @@
+{
+  "slug": "contact-automation",
+  "cat": "N8N & Automation",
+  "live": true,
+  "featured": true,
+  "url": "https://kanwalkumar.com/#/#contact",
+  "ask": false,
+  "name": "Contact pipeline — n8n workflow behind this site",
+  "tagline": "The form on this page. Validates, filters bots, notifies me and confirms to the sender — no inbox babysitting.",
+  "result": "Every enquiry acknowledged within seconds, and I have never lost one to a spam folder or a missed notification.",
+  "stack": [
+    "n8n",
+    "Webhooks",
+    "SMTP",
+    "JavaScript"
+  ],
+  "meta": [
+    [
+      "Type",
+      "Personal infrastructure — production"
+    ],
+    [
+      "Role",
+      "Sole engineer"
+    ],
+    [
+      "Built in",
+      "1 day"
+    ],
+    [
+      "Live since",
+      "August 2026"
+    ],
+    [
+      "Runs on",
+      "Self-hosted n8n"
+    ],
+    [
+      "Try it",
+      "The contact form on this site"
+    ]
+  ],
+  "what": "The automation behind the contact form on this page. A webhook receives the submission, screens it, emails me the enquiry and sends the sender an immediate confirmation. Self-hosted n8n on my own VPS.",
+  "problem": "A contact form that only emails you is a form that quietly fails. The sender gets no acknowledgement and has no idea whether it went through, and you find out about the failure when someone follows up angrily on LinkedIn a week later — or never. The second problem is bots: a public form with no filtering fills your inbox with junk until you stop reading it.",
+  "built": [
+    "Webhook trigger with CORS locked to my own domains, so the endpoint only accepts submissions from this site.",
+    "A shared-secret header on every request, so a bot hitting the webhook URL directly is rejected before anything runs.",
+    "A honeypot field, hidden from humans and invisible to screen readers. Bots fill it, people cannot, and anything with it filled is dropped silently rather than bounced — a rejection message tells a bot what to fix.",
+    "Field validation in the workflow rather than trusting the browser, since client-side validation is convenience, not security.",
+    "Two emails in parallel: the enquiry to me with the sender's details, and a confirmation back to them so nobody is left guessing.",
+    "Sent over authenticated SMTP with proper DNS records rather than a default mail function, because deliverability is the whole point of the system."
+  ],
+  "nodes": [
+    {
+      "t": "Form submitted",
+      "s": "Browser",
+      "d": "Validated in the browser first for fast feedback — but that check is a courtesy to the user, not a defence. Everything is re-checked server-side."
+    },
+    {
+      "t": "Webhook receives",
+      "s": "n8n",
+      "d": "CORS restricted to my domains and a shared-secret header required. A request without both never reaches the rest of the workflow."
+    },
+    {
+      "t": "Screen it",
+      "s": "Filter",
+      "d": "Honeypot checked and fields validated. Bot submissions are dropped silently — returning an error just tells the bot which field to fix next time."
+    },
+    {
+      "t": "Notify me",
+      "s": "SMTP",
+      "d": "The enquiry lands in my inbox with the sender's details, so I can reply directly rather than through a dashboard."
+    },
+    {
+      "t": "Confirm to sender",
+      "s": "SMTP",
+      "d": "An immediate confirmation, so the sender knows it arrived. This is the part most contact forms skip, and it is the part that decides whether someone follows up or assumes you ignored them."
+    }
+  ],
+  "hard": {
+    "t": "The interesting problem",
+    "d": "Deliverability, not the workflow. Automated mail from a new domain lands in spam by default — the workflow can run perfectly and the enquiry still never gets read, and you will not know, because a spam-foldered email produces no error anywhere. Getting it right meant authenticated SMTP with the DNS records configured before going live rather than after, and then actually testing delivery into Gmail and Outlook instead of assuming a green tick in n8n meant the message arrived."
+  },
+  "learn": "I would log every submission to a database as well as emailing it. Right now the only record is my inbox, so a mail failure loses the enquiry entirely with nothing to recover from. A row in a table costs one node and turns a silent loss into something I can replay.",
+  "links": [
+    [
+      "Try the form",
+      "https://kanwalkumar.com/#/#contact"
+    ]
+  ],
+  "date": "2026-08"
+}

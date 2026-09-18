@@ -1,5 +1,3 @@
-import { existsSync } from "node:fs";
-import path from "node:path";
 import Link from "next/link";
 import { Fragment } from "react";
 import { CONTACT } from "../data";
@@ -21,10 +19,13 @@ function ActionLink({ href, children }) {
 
 export default function ProjectDetail({ project }) {
   const media = [
-    { type: "video", name: `${project.slug}-3.mp4` },
-    { type: "image", name: `${project.slug}-1.jpg`, alt: "The system running" },
-    { type: "image", name: `${project.slug}-2.jpg`, alt: "Workflow or admin view" },
-  ].filter((item) => existsSync(path.join(process.cwd(), "public", "images", "projects", item.name)));
+    ...(project.media.video ? [{ type: "video", src: project.media.video }] : []),
+    ...project.media.shots.map((src, index) => ({
+      type: "image",
+      src,
+      alt: index === 0 ? "The system running" : "Workflow or admin view",
+    })),
+  ];
 
   return (
     <section className="band band--flat wrap" data-rail="Project" style={{ paddingTop: "clamp(38px,6vw,68px)" }}>
@@ -38,12 +39,14 @@ export default function ProjectDetail({ project }) {
           <h1 style={{ fontSize: "clamp(2rem,4vw,3rem)" }}>{project.name}</h1>
           <p className="lede" style={{ marginTop: 16 }}>{project.tagline}</p>
           <p style={{ color: "var(--run)" }}>{project.result}</p>
-          <p>
-            {project.url && <><a className="btn btn--sm" href={internalHref(project.url)} target={project.url.startsWith("http") ? "_blank" : undefined} rel="noopener">Open it live</a>{" "}</>}
-            {project.links.map(([label, href]) => (
-              <Fragment key={`${label}-${href}`}><ActionLink href={href}>{label}</ActionLink>{" "}</Fragment>
-            ))}
-          </p>
+          {(project.url || project.links.length > 0) && (
+            <p>
+              {project.url && <><a className="btn btn--sm" href={internalHref(project.url)} target={project.url.startsWith("http") ? "_blank" : undefined} rel="noopener">Open it live</a>{" "}</>}
+              {project.links.map(([label, href]) => (
+                <Fragment key={`${label}-${href}`}><ActionLink href={href}>{label}</ActionLink>{" "}</Fragment>
+              ))}
+            </p>
+          )}
         </div>
         <div>
           <div className="d__meta">
@@ -62,20 +65,22 @@ export default function ProjectDetail({ project }) {
       {!!media.length && (
         <div className="shots">
           {media.map((item) => item.type === "video" ? (
-            <div className="frame wide" key={item.name}><video src={`/images/projects/${item.name}`} controls preload="metadata" playsInline style={{ width: "100%", height: "100%", objectFit: "cover" }} /></div>
+            <div className="frame wide" key={item.src}><video src={item.src} controls preload="metadata" playsInline style={{ width: "100%", height: "100%", objectFit: "cover" }} /></div>
           ) : (
-            <div className="frame wide" key={item.name}><img src={`/images/projects/${item.name}`} alt={item.alt} loading="lazy" /></div>
+            <div className="frame wide" key={item.src}><img src={item.src} alt={item.alt} loading="lazy" /></div>
           ))}
         </div>
       )}
-      <div className="block">
-        <h3>What it is</h3><p>{project.what}</p>
-        <h3>The problem it solves</h3><p>{project.problem}</p>
-        <h3>How it works</h3><ol>{project.built.map((item) => <li key={item}>{item}</li>)}</ol>
-      </div>
-      <WorkflowCanvas nodes={project.nodes} />
-      <div className="callout"><h4>{project.hard.t}</h4><p>{project.hard.d}</p></div>
-      <div className="hard"><h4>What I would do differently</h4><p>{project.learn}</p></div>
+      {(project.what || project.problem || project.built.length > 0) && (
+        <div className="block">
+          {project.what && <><h3>What it is</h3><p>{project.what}</p></>}
+          {project.problem && <><h3>The problem it solves</h3><p>{project.problem}</p></>}
+          {project.built.length > 0 && <><h3>How it works</h3><ol>{project.built.map((item) => <li key={item}>{item}</li>)}</ol></>}
+        </div>
+      )}
+      {project.nodes.length > 0 && <WorkflowCanvas nodes={project.nodes} />}
+      {project.hard?.t && project.hard?.d && <div className="callout"><h4>{project.hard.t}</h4><p>{project.hard.d}</p></div>}
+      {project.learn && <div className="hard"><h4>What I would do differently</h4><p>{project.learn}</p></div>}
       <div className="block">
         <h3>Built with</h3>
         <div className="chips" style={{ marginTop: 10 }}>{project.stack.map((item) => <span className="chip" key={item}>{item}</span>)}</div>

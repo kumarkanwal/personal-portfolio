@@ -1,0 +1,63 @@
+{
+  "slug": "my-project",
+  "name": "My project name",
+  "cat": "AI agents",
+  "tagline": "A short sentence explaining what the project does.",
+  "result": "A short sentence describing the result or business impact.",
+  "stack": [
+    "Python",
+    "FastAPI"
+  ],
+  "date": "2026-01",
+  "featured": false,
+  "live": false,
+  "url": "https://example.com/",
+  "ask": false,
+  "meta": [
+    [
+      "Type",
+      "Example project"
+    ],
+    [
+      "Role",
+      "Sole engineer"
+    ],
+    [
+      "Live since",
+      "January 2026"
+    ]
+  ],
+  "what": "A short description of what the project is.",
+  "problem": "A short description of the problem it solves.",
+  "built": [
+    "The first important implementation detail.",
+    "The second important implementation detail."
+  ],
+  "nodes": [
+    {
+      "t": "Input",
+      "s": "Step",
+      "d": "A short description of this workflow step."
+    },
+    {
+      "t": "Output",
+      "s": "Result",
+      "d": "A short description of the workflow result."
+    }
+  ],
+  "hard": {
+    "t": "The interesting problem",
+    "d": "A short description of the hardest part."
+  },
+  "learn": "A short description of what you would do differently.",
+  "links": [
+    [
+      "Live site",
+      "https://example.com/"
+    ],
+    [
+      "Source",
+      "https://github.com/example/project"
+    ]
+  ]
+}

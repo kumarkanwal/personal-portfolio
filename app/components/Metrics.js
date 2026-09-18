@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { PROFILE, PROJECTS } from "../data";
+import { PROFILE } from "../data";
 
 function Count({ value, suffix }) {
   const ref = useRef(null);
@@ -38,8 +38,8 @@ function Count({ value, suffix }) {
   return <b ref={ref}>{display}{suffix}</b>;
 }
 
-export default function Metrics() {
-  const liveProjects = PROJECTS.filter((project) => project.live).length;
+export default function Metrics({ projects }) {
+  const liveProjects = projects.filter((project) => project.live).length;
   const metrics = PROFILE.metrics.map((metric, index) => index === 0 ? [String(liveProjects), metric[1], metric[2]] : metric);
   return (
     <div className="mstrip">

@@ -14,5 +14,11 @@
   },
   "engines": {
     "node": "24.x"
+  },
+  "overrides": {
+  "postcss": "$postcss"
+},
+  "devDependencies": {
+    "postcss": "^8.5.28"
   }
 }

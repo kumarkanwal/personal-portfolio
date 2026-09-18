@@ -2,26 +2,17 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { CATS, PROJECTS } from "../data";
+import { CATS } from "../data";
 import { MediaFrame } from "./Media";
 
 const PAGE_SIZE = 3;
 
-function liveSince(project) {
-  const value = project.meta.find(([label]) => label === "Live since")?.[1];
-  return value ? Date.parse(`1 ${value}`) || 0 : 0;
-}
-
-const SORTED_PROJECTS = [...PROJECTS].sort((a, b) =>
-  Number(b.featured) - Number(a.featured) || liveSince(b) - liveSince(a)
-);
-
-export default function Projects() {
+export default function Projects({ projects }) {
   const [active, setActive] = useState("All");
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
-  const filtered = active === "All" ? SORTED_PROJECTS : SORTED_PROJECTS.filter((project) => project.cat === active);
+  const filtered = active === "All" ? projects : projects.filter((project) => project.cat === active);
   const visible = active === "All" ? filtered.slice(0, visibleCount) : filtered;
-  const remaining = Math.max(0, SORTED_PROJECTS.length - visibleCount);
+  const remaining = Math.max(0, projects.length - visibleCount);
   const allShown = remaining === 0;
   const reduced = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -32,7 +23,7 @@ export default function Projects() {
 
   function toggleProjects() {
     if (!allShown) {
-      setVisibleCount((count) => Math.min(count + PAGE_SIZE, SORTED_PROJECTS.length));
+      setVisibleCount((count) => Math.min(count + PAGE_SIZE, projects.length));
       return;
     }
     setVisibleCount(PAGE_SIZE);
@@ -45,10 +36,10 @@ export default function Projects() {
     <section className="band" id="projects" data-rail="Projects">
       <div className="wrap">
         <p className="eyebrow">Projects</p>
-        <h2 style={{ maxWidth: "22ch" }}>{PROJECTS.length} projects. Filter by what you are hiring for.</h2>
+        <h2 style={{ maxWidth: "22ch" }}>{projects.length} projects. Filter by what you are hiring for.</h2>
         <div className="filters">
           {["All", ...CATS].map((category) => {
-            const count = category === "All" ? PROJECTS.length : PROJECTS.filter((project) => project.cat === category).length;
+            const count = category === "All" ? projects.length : projects.filter((project) => project.cat === category).length;
             return (
               <button type="button" key={category} aria-pressed={category === active} onClick={() => selectCategory(category)}>
                 {category}<span className="count">{count}</span>
@@ -57,7 +48,7 @@ export default function Projects() {
           })}
         </div>
         <div className="pgrid">
-          {!visible.length && <div className="empty">Nothing here yet. Add a project to this category in the PROJECTS list.</div>}
+          {!visible.length && <div className="empty">Nothing here yet. Add a project folder for this category.</div>}
           {visible.map((project, index) => (
             <Link
               className="pcard"
@@ -66,7 +57,7 @@ export default function Projects() {
               key={project.slug}
             >
               <div className="pcard__shot">
-                <MediaFrame src={`/images/projects/${project.slug}-card.jpg`} label={project.name} />
+                <MediaFrame src={project.media.cover} label={project.name} />
               </div>
               <div className="pcard__body">
                 <div className="pcard__top">
@@ -83,7 +74,7 @@ export default function Projects() {
             </Link>
           ))}
         </div>
-        {active === "All" && SORTED_PROJECTS.length > PAGE_SIZE && (
+        {active === "All" && projects.length > PAGE_SIZE && (
           <div className="list-toggle">
             <button className="btn btn--ghost" type="button" onClick={toggleProjects}>
               {allShown ? "Show less" : `Show more projects (${remaining} more)`}
